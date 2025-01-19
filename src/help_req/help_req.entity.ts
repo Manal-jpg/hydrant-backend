@@ -26,4 +26,7 @@ export class HelpRequest {
 
   @Column()
   video_url: string;
+
+  @Column({ type: 'int', nullable: false })
+  rank: number;
 }

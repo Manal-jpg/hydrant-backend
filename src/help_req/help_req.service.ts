@@ -32,4 +32,8 @@ export class HelpRequestService {
 
     return this.helpRequestRepository.save(helpRequest);
   }
+
+  async getAllHelpRequests(): Promise<HelpRequest[]> {
+    return this.helpRequestRepository.find();
+  }
 }

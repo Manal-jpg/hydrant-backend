@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Get,
   UseInterceptors,
   UploadedFile,
   Body,
@@ -29,5 +30,10 @@ export class HelpRequestController {
       longitude,
       video,
     );
+  }
+
+  @Get()
+  async getAllHelpRequests() {
+    return this.helpRequestService.getAllHelpRequests();
   }
 }
