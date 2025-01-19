@@ -29,4 +29,10 @@ export class HelpRequest {
 
   @Column({ type: 'int', nullable: false })
   rank: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  description: string;
 }

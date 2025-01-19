@@ -19,6 +19,8 @@ export class HelpRequestService {
     longitude: number,
     video: Express.Multer.File,
     rank: number,
+    name: string,
+    description: string,
   ): Promise<HelpRequest> {
     // Validate rank
     if (rank < 1 || rank > 6) {
@@ -35,6 +37,8 @@ export class HelpRequestService {
       longitude,
       video_url: videoUrl,
       rank,
+      name,
+      description,
     });
 
     return this.helpRequestRepository.save(helpRequest);

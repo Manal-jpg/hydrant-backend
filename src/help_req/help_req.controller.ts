@@ -24,6 +24,8 @@ export class HelpRequestController {
     @Body('latitude') latitude: number,
     @Body('longitude') longitude: number,
     @Body('rank') rank: number,
+    @Body('name') name: string,
+    @Body('description') description: string,
   ) {
     const user = { user_id: userId } as User; // Replace with actual user retrieval logic
     return this.helpRequestService.createHelpRequest(
@@ -32,6 +34,8 @@ export class HelpRequestController {
       longitude,
       video,
       rank,
+      name,
+      description,
     );
   }
 
