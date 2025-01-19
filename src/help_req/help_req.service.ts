@@ -18,7 +18,13 @@ export class HelpRequestService {
     latitude: number,
     longitude: number,
     video: Express.Multer.File,
+    rank: number,
   ): Promise<HelpRequest> {
+    // Validate rank
+    if (rank < 1 || rank > 6) {
+      throw new Error('Rank must be an integer between 1 and 6.');
+    }
+
     // Upload video to S3
     const videoUrl = await this.s3Service.uploadFile(video, 'help-requests');
 
@@ -28,6 +34,7 @@ export class HelpRequestService {
       latitude,
       longitude,
       video_url: videoUrl,
+      rank,
     });
 
     return this.helpRequestRepository.save(helpRequest);

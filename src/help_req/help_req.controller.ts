@@ -22,6 +22,7 @@ export class HelpRequestController {
     @UploadedFile() video: Express.Multer.File,
     @Body('latitude') latitude: number,
     @Body('longitude') longitude: number,
+    @Body('rank') rank: number,
   ) {
     const user = { user_id: userId } as User; // Replace with actual user retrieval logic
     return this.helpRequestService.createHelpRequest(
@@ -29,6 +30,7 @@ export class HelpRequestController {
       latitude,
       longitude,
       video,
+      rank,
     );
   }
 
