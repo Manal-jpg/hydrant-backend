@@ -7,6 +7,8 @@ import {
   Body,
   Param,
   Delete,
+  Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { HelpRequestService } from './help_req.service';
@@ -47,5 +49,20 @@ export class HelpRequestController {
   @Delete(':requestId')
   async deleteHelpRequest(@Param('requestId') requestId: number) {
     return this.helpRequestService.deleteHelpRequest(requestId);
+  }
+
+  @Get('nearby')
+  async getNearbyLocations(
+    @Query('latitude') latitude: string,
+    @Query('longitude') longitude: string,
+  ) {
+    const lat = parseFloat(latitude);
+    const lon = parseFloat(longitude);
+
+    if (isNaN(lat) || isNaN(lon)) {
+      throw new BadRequestException('Invalid latitude or longitude');
+    }
+
+    return this.helpRequestService.getNearbyLocations(lat, lon);
   }
 }
