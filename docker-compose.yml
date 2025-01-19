@@ -1,0 +1,38 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Map container port 3000 to host port 3000
+    ports:
+      - "3000:3000"
+    # Load environment variables from .env
+    env_file:
+      - .env
+    # Make sure Nest.js starts after MySQL
+    depends_on:
+      - mysql
+    # Mount the project folder so changes reflect in the container (dev-friendly)
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev
+
+  mysql:
+    image: mysql:8.0
+    container_name: hydrant_db
+    # Expose MySQL's port 3306 on your host machine as 3307
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: hydrant2025
+      MYSQL_DATABASE: hydrant_db
+    # Named volume for persistent data
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
