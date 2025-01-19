@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HelpRequest } from './help_req.entity';
@@ -42,5 +42,17 @@ export class HelpRequestService {
 
   async getAllHelpRequests(): Promise<HelpRequest[]> {
     return this.helpRequestRepository.find();
+  }
+
+  async deleteHelpRequest(request_id: number): Promise<void> {
+    const helpRequest = await this.helpRequestRepository.findOne({
+      where: { request_id: request_id },
+    });
+    if (!helpRequest) {
+      throw new NotFoundException(
+        `Help request with ID ${request_id} not found.`,
+      );
+    }
+    await this.helpRequestRepository.remove(helpRequest);
   }
 }

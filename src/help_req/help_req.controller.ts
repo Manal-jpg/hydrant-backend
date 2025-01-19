@@ -6,6 +6,7 @@ import {
   UploadedFile,
   Body,
   Param,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { HelpRequestService } from './help_req.service';
@@ -37,5 +38,10 @@ export class HelpRequestController {
   @Get()
   async getAllHelpRequests() {
     return this.helpRequestService.getAllHelpRequests();
+  }
+
+  @Delete(':requestId')
+  async deleteHelpRequest(@Param('requestId') requestId: number) {
+    return this.helpRequestService.deleteHelpRequest(requestId);
   }
 }
