@@ -59,4 +59,35 @@ export class HelpRequestService {
     }
     await this.helpRequestRepository.remove(helpRequest);
   }
+
+  async getNearbyLocations(
+    latitude: number,
+    longitude: number,
+    radius: number = 50,
+  ): Promise<any[]> {
+    const locations = await this.helpRequestRepository.find({
+      select: ['latitude', 'longitude'],
+    });
+
+    const toRadians = (degree: number) => degree * (Math.PI / 180);
+
+    return locations.filter((location) => {
+      const lat1 = toRadians(latitude);
+      const lon1 = toRadians(longitude);
+      const lat2 = toRadians(location.latitude);
+      const lon2 = toRadians(location.longitude);
+
+      const dLat = lat2 - lat1;
+      const dLon = lon2 - lon1;
+
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = 6371 * c; // Earth's radius in kilometers
+
+      return distance <= radius;
+    });
+  }
 }
